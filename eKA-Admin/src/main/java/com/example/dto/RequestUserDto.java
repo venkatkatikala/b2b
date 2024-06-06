@@ -26,7 +26,7 @@ public class RequestUserDto {
 	private String location;
 	private String noticeperiod;
 	
-	@JsonIgnore
+	
 	private String password;
 
 	 private Long empNumber;

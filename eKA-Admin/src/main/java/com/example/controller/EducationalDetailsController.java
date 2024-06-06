@@ -2,6 +2,7 @@ package com.example.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +15,8 @@ import com.example.entity.EducationDetails;
 import com.example.resource.EducationalDetailsResource;
 
 @RestController
-@RequestMapping("/bankdetails")
+@RequestMapping("/educationaldetails")
+@CrossOrigin("http://localhost:5173")
 public class EducationalDetailsController {
 
 	@Autowired

@@ -40,15 +40,16 @@ public class SecurityConfig {
             .cors(cors -> cors.disable())
             .authorizeHttpRequests(auth -> auth
             	
-                .requestMatchers("/api/user/login", "/api/user/register", "api/user/send-otp").permitAll()
+                .requestMatchers("/api/user/login", "api/user/send-otp").permitAll()
                 // Admin Access apis
-                .requestMatchers("/api/user/grant-role","/api/user/allusers","/api/user/revoke-role","/api/user/team","/api/user/adminUpdateDetails","/api/user/findbyrole","/leaveRequests/approveLeave","/leaveRequests/rejectLeave")
+                .requestMatchers("/api/user/grant-role", "/api/user/register","/api/user/allusers","/api/user/revoke-role","/api/user/team","/api/user/adminUpdateDetails","/api/user/findbyrole","/leaveRequests/approveLeave","/leaveRequests/rejectLeave"
+                		,"/api/user/otpvalidation","/api/user/updatePassword")
                 .hasAuthority("Admin")
                 //HR access apis
                 .requestMatchers("/leaveBalance/addleaves","/api/user/registeremp","/api/user/saveeducationaldetails","/leaveRequests/approveLeave","/leaveRequests/rejectLeave","/api/user/team","/api/user/deleteemployee","/api/user/findbyrole","/leaveRequests/findpendingleaves",
-                		"/bankdetails/addbankdetails","/bankdetails/findallbankdetails" )
+                		"/bankdetails/addbankdetails","/bankdetails/findallbankdetails","/educationaldetails/getallEducationalDetails" )
                 .hasAuthority("HR")
-                .requestMatchers("/leaveBalance/availableLeaves","/leaveRequests/applyLeave","/api/user/updatemployee","/leaveRequests/findEmpleaves")
+                .requestMatchers("/leaveBalance/availableLeaves","/leaveRequests/applyLeave","/api/user/updatemployee","/leaveRequests/findEmpleaves","/educationaldetails/saveeducationaldetails")
                 .hasAuthority("Employee")
                 
             )

@@ -94,7 +94,7 @@ public class UserResource {
         String jwtToken;
         User user;
 
-        List<GrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority(loginRequest.getRole()));
+       // List<GrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority(loginRequest.getRole()));
 
         try {
             if (loginRequest.getOtp() != null && !loginRequest.getOtp().isEmpty()) {
@@ -105,7 +105,7 @@ public class UserResource {
                 }
             } else {
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmailId(), loginRequest.getPassword(), authorities));
+                        loginRequest.getEmailId(), loginRequest.getPassword()));
             }
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "Authentication failed", ex);

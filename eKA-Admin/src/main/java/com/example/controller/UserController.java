@@ -2,7 +2,7 @@ package com.example.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,6 +24,7 @@ import com.example.entity.EducationDetails;
 import com.example.resource.UserResource;
 @RestController
 @RequestMapping("/api/user")
+@CrossOrigin("http://localhost:5173")
 public class UserController {
 
     @Autowired
@@ -103,12 +104,12 @@ public class UserController {
     public ResponseEntity<CommonApiResponse>updateAdminDetails(@RequestBody AdminUpdateDetailsDto dto){
     	return resource.updateAdminDetails(dto);
     }
-    //otp validation
+    //otp validation for admin at the of changing password and email this api hit after sending the send otp
     @PostMapping(value = "/otpvalidation")
     public ResponseEntity<CommonApiResponse>validateOTP(@RequestBody OTPValidation dto){
     	return resource.OTPValidation(dto);
     }
-    
+    //after otp validation admin have access this api to change email id and password
     @PutMapping(value = "/updatePassword")
     public ResponseEntity<CommonApiResponse>adminUpdatePasswordEmail(@RequestBody AdminPasswordAndEmailUpdate dto){
     	return resource.updatAdminPasswordAndEmail(dto);

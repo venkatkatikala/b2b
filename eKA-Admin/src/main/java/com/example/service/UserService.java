@@ -23,7 +23,7 @@ UserDao repo;
 	}
 	
 	public User logind(UserLoginRequest login) {
-		return repo.findByEmailAndPasswordAndRole(login.getEmailId(), login.getPassword(), login.getRole());
+		return repo.findByEmailAndPassword(login.getEmailId(), login.getPassword());
 	}
 	
 	public User getbyemail(String email) {

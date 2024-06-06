@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface UserDao extends JpaRepository<User, Integer>{
-	User findByEmailAndPasswordAndRole(String email, String password, String role);
+	User  findByEmailAndPassword(String email, String password);
 	User findByEmail(String email);
 	List<User> findByRole(String role);
 	//List<User> findByDesignation(String designation);
