@@ -8,13 +8,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.example.dto.ApplyLeaveRequestDto;
 import com.example.dto.CommonApiResponse;
 import com.example.dto.UserResponseDto;
 import com.example.entity.LeaveBalance;
 import com.example.entity.LeaveRequest;
+import com.example.entity.User;
 import com.example.service.EmailService;
 import com.example.service.LeaveBalanceService;
 import com.example.service.LeaveRequestService;
+import com.example.service.UserService;
 
 @Service
 public class LeaveRequestResource {
@@ -24,52 +27,71 @@ public class LeaveRequestResource {
 
 	@Autowired
 	private LeaveBalanceService leaveBalanceService;
+	
+	@Autowired
+	UserService userService;
 
 	@Autowired
 	private EmailService emailService;
+	
+	 public ResponseEntity<CommonApiResponse> applyLeave( List<ApplyLeaveRequestDto> leaveRequests) {
+	        CommonApiResponse response = new CommonApiResponse();
 
-	public ResponseEntity<CommonApiResponse> applyLeave(List<LeaveRequest> leaveRequests) {
-		CommonApiResponse response = new CommonApiResponse();
-
-		for (LeaveRequest leaveRequest : leaveRequests) {
-			leaveRequest.setStatus("Pending");
-
-			// Calculate the number of requested leave days
-			int requestedLeaveDays = calculateLeaveDays(leaveRequest);
-
-			LeaveBalance byEmpnumberAndLeaveType = leaveBalanceService
-					.findByEmpnumberAndLeaveType(leaveRequest.getEmpnumber(), leaveRequest.getLeaveType());
-
-			if (byEmpnumberAndLeaveType == null) {
-				response.setMessage("No leave balance found for employee:");
+	        if(leaveRequests==null||leaveRequests.isEmpty()) {
+				response.setMessage("missing input");
 				response.setStatus(false);
-				return new ResponseEntity<CommonApiResponse>(response, HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<CommonApiResponse>(response,HttpStatus.BAD_REQUEST);
 			}
+	        
+	        
+	        for (ApplyLeaveRequestDto leaveRequestDto : leaveRequests) {
+	            User user = userService.findByEmpNumber(leaveRequestDto.getEmpnumber());
 
-			if (byEmpnumberAndLeaveType.getAvailableDays() < requestedLeaveDays) {
-				response.setMessage("Insufficient leave balance for employee");
-				response.setStatus(false);
-				return new ResponseEntity<CommonApiResponse>(response, HttpStatus.BAD_REQUEST);
-			}
+	            if (user == null) {
+	                response.setMessage("Employee not found for empnumber: " + leaveRequestDto.getEmpnumber());
+	                response.setStatus(false);
+	                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+	            }
 
-			boolean isLeaveApplied = leaveRequestService.applyLeave(leaveRequest);
-			if (isLeaveApplied) {
-				leaveBalanceService.updateLeaveBalance(leaveRequest);
-				emailService.sendEmailForLeave(leaveRequest.getEmployeeEmail(), "Leave Request Submitted",
-						"Your leave request has been submitted for approval.");
-				emailService.notifyHrsAboutLeave(leaveRequest);
-			} else {
-				response.setMessage("Failed to apply leave for employee: " + leaveRequest.getEmployeeName());
-			}
-		}
+	            LeaveRequest leaveRequest = ApplyLeaveRequestDto.toLeaveRequestEntity(leaveRequestDto, user);
+	            leaveRequest.setStatus("Pending");
 
-		response.setMessage("Leave request processed.");
-		return ResponseEntity.ok(response);
-	}
+	            int requestedLeaveDays = calculateLeaveDays(leaveRequest);
 
-	private int calculateLeaveDays(LeaveRequest leaveRequest) {
-		return (int) ChronoUnit.DAYS.between(leaveRequest.getStartDate(), leaveRequest.getEndDate()) + 1;
-	}
+	            LeaveBalance byEmpnumberAndLeaveType = leaveBalanceService
+	                    .findByEmpnumberAndLeaveType(leaveRequest.getEmpnumber(), leaveRequest.getLeaveType());
+
+	            if (byEmpnumberAndLeaveType == null) {
+	                response.setMessage("No leave balance found for employee: " + leaveRequest.getEmpnumber());
+	                response.setStatus(false);
+	                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+	            }
+
+	            if (byEmpnumberAndLeaveType.getAvailableDays() < requestedLeaveDays) {
+	                response.setMessage("Insufficient leave balance for employee: " + leaveRequest.getEmpnumber());
+	                response.setStatus(false);
+	                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+	            }
+
+	            boolean isLeaveApplied = leaveRequestService.applyLeave(leaveRequest);
+	            if (isLeaveApplied) {
+	                leaveBalanceService.updateLeaveBalance(leaveRequest);
+	                emailService.sendEmailForLeave(leaveRequest.getEmployeeEmail(), "Leave Request Submitted",
+	                        "Your leave request has been submitted for approval.");
+	                emailService.notifyHrsAboutLeave(leaveRequest);
+	            } else {
+	                response.setMessage("Failed to apply leave for employee: " + leaveRequest.getEmployeeName());
+	            }
+	        }
+
+	        response.setMessage("Leave request processed.");
+	        response.setStatus(true);
+	        return ResponseEntity.ok(response);
+	    }
+
+	    private int calculateLeaveDays(LeaveRequest leaveRequest) {
+	        return (int) ChronoUnit.DAYS.between(leaveRequest.getStartDate(), leaveRequest.getEndDate()) + 1;
+	    }
 ///leave approve api
 	public ResponseEntity<CommonApiResponse> approveLeave(Long empnumber) {
 	  CommonApiResponse response = new CommonApiResponse();

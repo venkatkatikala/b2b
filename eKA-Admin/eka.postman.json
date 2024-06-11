@@ -1,0 +1,654 @@
+{
+    "info": {
+        "name": "API Collection",
+        "description": "Collection of all API endpoints",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "User Management APIs",
+            "item": [
+                {
+                    "name": "Register User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"firstname\": \"John\",\n    \"middlename\": \"A.\",\n    \"lastname\": \"Doe\",\n    \"gender\": \"Male\",\n    \"dateofbirth\": \"1990-01-01\",\n    \"email\": \"john.doe@example.com\",\n    \"mobileno\": 1234567890,\n    \"workertype\": \"Full-time\",\n    \"timetype\": \"Permanent\",\n    \"joiningdate\": \"2023-01-01\",\n    \"jobtitle\": \"Software Engineer\",\n    \"reportingmanager\": \"Jane Smith\",\n    \"department\": \"Engineering\",\n    \"location\": \"New York\",\n    \"noticeperiod\": \"2 months\",\n    \"password\": \"password123\",\n    \"empNumber\": 1001\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:2022/api/user/register",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "2022",
+                            "path": [
+                                "api",
+                                "user",
+                                "register"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Login",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"emailId\": \"john.doe@example.com\",\n    \"password\": \"password123\",\n    \"otp\": \"123456\"\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:2022/api/user/login",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "2022",
+                            "path": [
+                                "api",
+                                "user",
+                                "login"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Send OTP",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"john.doe@example.com\"\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:2022/api/user/send-otp",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "2022",
+                            "path": [
+                                "api",
+                                "user",
+                                "send-otp"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Fetch All Users",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:2022/api/user/allusers",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "2022",
+                            "path": [
+                                "api",
+                                "user",
+                                "allusers"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Grant Role",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:2022/api/user/grant-role?email=john.doe@example.com",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "2022",
+                            "path": [
+                                "api",
+                                "user",
+                                "grant-role"
+                            ],
+                            "query": [
+                                {
+                                    "key": "email",
+                                    "value": "john.doe@example.com",
+                                    "equals": true,
+                                    "description": ""
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Revoke Role",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:2022/api/user/revoke-role?email=john.doe@example.com",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "2022",
+                            "path": [
+                                "api",
+                                "user",
+                                "revoke-role"
+                            ],
+                            "query": [
+                                {
+                                    "key": "email",
+                                    "value": "john.doe@example.com",
+                                    "equals": true,
+                                    "description": ""
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Register Employee",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"firstname\": \"John\",\n    \"middlename\": \"A.\",\n    \"lastname\": \"Doe\",\n    \"gender\": \"Male\",\n    \"dateofbirth\": \"1990-01-01\",\n    \"email\": \"john.doe@example.com\",\n    \"mobileno\": 1234567890,\n    \"workertype\": \"Full-time\",\n    \"timetype\": \"Permanent\",\n    \"joiningdate\": \"2023-01-01\",\n    \"jobtitle\": \"Software Engineer\",\n    \"reportingmanager\": \"Jane Smith\",\n    \"department\": \"Engineering\",\n    \"location\": \"New York\",\n    \"noticeperiod\": \"2 months\",\n    \"password\": \"password123\",\n    \"empNumber\": 1001\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:2022/api/user/registeremp",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "2022",
+                            "path": [
+                                "api",
+                                "user",
+                                "registeremp"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Employee",
+                    "request": {
+                        "method": "PUT",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:2022/api/user/updatemployee?name=John&mobileno=1234567890&email=john.doe@example.com",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "2022",
+                            "path": [
+                                "api",
+                                "user",
+                                "updatemployee"
+                            ],
+                            "query": [
+                                {
+                                    "key": "name",
+                                    "value": "John",
+                                    "equals": true,
+                                    "description": ""
+                                },
+                                {
+                                    "key": "mobileno",
+                                    "value": "1234567890",
+                                    "equals": true,
+                                    "description": ""
+                                },
+                                {
+                                    "key": "email",
+                                    "value": "john.doe@example.com",
+                                    "equals": true,
+                                    "description": ""
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Find by Role",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:2022/api/user/findbyrole?role=Admin",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "2022",
+                            "path": [
+                                "api",
+                                "user",
+                                "findbyrole"
+                            ],
+                            "query": [
+                                {
+                                    "key": "role",
+                                    "value": "Admin",
+                                    "equals": true,
+                                    "description": ""
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete Employee",
+                    "request": {
+                        "method": "PUT",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:2022/api/user/deleteemployee?email=john.doe@example.com",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "2022",
+                            "path": [
+                                "api",
+                                "user",
+                                "deleteemployee"
+                            ],
+                            "query": [
+                                {
+                                    "key": "email",
+                                    "value": "john.doe@example.com",
+                                    "equals": true,
+                                    "description": ""
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Admin Details",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"mobileno\": 1234567890,\n    \"firstname\": \"John\",\n    \"email\": \"john.doe@example.com\",\n    \"role\": \"Admin\"\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:2022/api/user/adminUpdateDetails",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "2022",
+                            "path": [
+                                "api",
+                                "user",
+                                "adminUpdateDetails"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "OTP Validation",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"john.doe@example.com\",\n    \"otp\": \"123456\"\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:2022/api/user/otpvalidation",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "2022",
+                            "path": [
+                                "api",
+                                "user",
+                                "otpvalidation"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Password/Email",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"oldEmail\": \"john.doe@example.com\",\n    \"newemail\": \"john.smith@example.com\",\n    \"newpassword\": \"newpassword123\"\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:2022/api/user/updatePassword",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "2022",
+                            "path": [
+                                "api",
+                                "user",
+                                "updatePassword"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Leave Request Management APIs",
+            "item": [
+                {
+                    "name": "Apply Leave",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "Insert JSON request body here"
+                        },
+                        "url": {
+                            "raw": "http://localhost:2022/api/leave/apply",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "2022",
+                            "path": [
+                                "api",
+                                "leave",
+                                "apply"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Approve Leave",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:2022/api/leave/approve?empnumber=1001",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "2022",
+                            "path": [
+                                "api",
+                                "leave",
+                                "approve"
+                            ],
+                            "query": [
+                                {
+                                    "key": "empnumber",
+                                    "value": "1001",
+                                    "equals": true,
+                                    "description": ""
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Reject Leave",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:2022/api/leave/reject?empnumber=1001",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "2022",
+                            "path": [
+                                "api",
+                                "leave",
+                                "reject"
+                            ],
+                            "query": [
+                                {
+                                    "key": "empnumber",
+                                    "value": "1001",
+                                    "equals": true,
+                                    "description": ""
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Find All Pending Leaves",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:2022/api/leave/findallpending",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "2022",
+                            "path": [
+                                "api",
+                                "leave",
+                                "findallpending"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Find Employee Leaves Requests",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:2022/api/leave/findempleaves?empnumber=1001",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "2022",
+                            "path": [
+                                "api",
+                                "leave",
+                                "findempleaves"
+                            ],
+                            "query": [
+                                {
+                                    "key": "empnumber",
+                                    "value": "1001",
+                                    "equals": true,
+                                    "description": ""
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Educational Details Management APIs",
+            "item": [
+                {
+                    "name": "Add Educational Details",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "Insert JSON request body here"
+                        },
+                        "url": {
+                            "raw": "http://localhost:2022/educationaldetails/saveeducationaldetails",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "2022",
+                            "path": [
+                                "educationaldetails",
+                                "saveeducationaldetails"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Find All Educational Details",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:2022/educationaldetails/getallEducationalDetails",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port":
+ "2022",
+                            "path": [
+                                "educationaldetails",
+                                "getallEducationalDetails"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Bank Details Management APIs",
+            "item": [
+                {
+                    "name": "Add Bank Details",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "Insert JSON request body here"
+                        },
+                        "url": {
+                            "raw": "http://localhost:2022/bankdetails/addbankdetails",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "2022",
+                            "path": [
+                                "bankdetails",
+                                "addbankdetails"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Find All Bank Details",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:2022/bankdetails/findallbankdetails",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "2022",
+                            "path": [
+                                "bankdetails",
+                                "findallbankdetails"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ]
+}

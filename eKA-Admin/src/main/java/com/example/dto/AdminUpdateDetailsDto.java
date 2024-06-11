@@ -6,7 +6,7 @@ import lombok.Data;
 public class AdminUpdateDetailsDto {
 
 	private Long mobileno;
-	private String name;
+	private String firstname;
 	private String email;
 	private String role;
 }

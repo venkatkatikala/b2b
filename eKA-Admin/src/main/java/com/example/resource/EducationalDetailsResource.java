@@ -26,6 +26,13 @@ public class EducationalDetailsResource {
 	  public ResponseEntity<CommonApiResponse>saveeducationaldetails(EducationDetails education){
 	    	CommonApiResponse response = new CommonApiResponse();
 	    	
+	    	
+	    	
+	    	if(education==null) {
+				response.setMessage("missing input");
+				response.setStatus(false);
+				return new ResponseEntity<CommonApiResponse>(response,HttpStatus.BAD_REQUEST);
+			}
 	    	User byEmpNumber = service.findByEmpNumber(education.getEmpnumber());
 	    	if(byEmpNumber==null) {
 	    		response.setMessage("provide proper employee number");

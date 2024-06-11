@@ -46,6 +46,17 @@ public class UserController {
     public ResponseEntity<CommonApiResponse> sendOtp(@RequestBody OtpRequest otpRequest) {
         return resource.sendOtp(otpRequest);
     }
+    
+    //find user by email
+    
+    @GetMapping(value = "/findbyemail")
+    public ResponseEntity<UserResponseDto>findbyemail( @RequestParam String email){
+    	return resource.findbyemail(email);
+    }
+    
+    
+    
+    
 //fetch all members in the organization api
     @GetMapping("/allusers")
     //@PreAuthorize("hasAnyAuthority('Admin', 'Special')")
@@ -73,7 +84,7 @@ public class UserController {
     }
     
     
-    //employee update his details api
+    //employee update his details api its only update name and mobile number
     @PutMapping(value = "/updatemployee")
     public ResponseEntity<CommonApiResponse>updateemployee(@RequestParam String name,@RequestParam Long mobileno,@RequestParam String email){
     	return resource.updateemployee(name, mobileno, email);

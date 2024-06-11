@@ -15,6 +15,7 @@ import lombok.Data;
 public class UserResponseDto extends CommonApiResponse {
 
 	private List<User>user=new ArrayList<>();
+	private User singleuser;
 	
 	private List<LeaveBalance>leaveBalance=new ArrayList<>();
 	private List<LeaveRequest>leaverequest=new ArrayList<>();

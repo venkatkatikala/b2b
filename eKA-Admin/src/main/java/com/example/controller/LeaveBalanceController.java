@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.dto.AddLeaveBalanceDto;
 import com.example.dto.CommonApiResponse;
 import com.example.dto.UserResponseDto;
 import com.example.entity.LeaveBalance;
@@ -27,7 +28,7 @@ public class LeaveBalanceController {
 	
 	
 	@PostMapping(value = "/addleaves")
-	public ResponseEntity<CommonApiResponse>addleaves(@RequestBody List<LeaveBalance>leave){
+	public ResponseEntity<CommonApiResponse>addleaves(@RequestBody List<AddLeaveBalanceDto>leave){
 		return resource.addleave(leave);
 	}
 	

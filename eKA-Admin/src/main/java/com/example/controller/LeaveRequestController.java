@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.dto.ApplyLeaveRequestDto;
 import com.example.dto.CommonApiResponse;
 import com.example.dto.UserResponseDto;
 import com.example.entity.LeaveRequest;
@@ -28,7 +29,7 @@ public class LeaveRequestController {
 	
 	//leave apply api
 	@PostMapping(value = "/applyLeave")
-	public ResponseEntity<CommonApiResponse>applyleave(@RequestBody List<LeaveRequest>leave){
+	public ResponseEntity<CommonApiResponse>applyleave(@RequestBody List<ApplyLeaveRequestDto>leave){
 		return resource.applyLeave(leave);
 	}
 	

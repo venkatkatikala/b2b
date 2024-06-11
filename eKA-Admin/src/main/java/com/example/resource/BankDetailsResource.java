@@ -28,6 +28,12 @@ public class BankDetailsResource {
 	public ResponseEntity<CommonApiResponse>addbankdetails(BankDetails bank){
 		CommonApiResponse response = new CommonApiResponse();
 		
+		if(bank==null) {
+			response.setMessage("missing input");
+			response.setStatus(false);
+			return new ResponseEntity<CommonApiResponse>(response,HttpStatus.BAD_REQUEST);
+		}
+		
 		User byEmpNumber = userservice.findByEmpNumber(bank.getEmpnumber());
 		
 		if(byEmpNumber==null) {

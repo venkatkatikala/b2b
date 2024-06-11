@@ -43,13 +43,13 @@ public class SecurityConfig {
                 .requestMatchers("/api/user/login", "api/user/send-otp").permitAll()
                 // Admin Access apis
                 .requestMatchers("/api/user/grant-role", "/api/user/register","/api/user/allusers","/api/user/revoke-role","/api/user/team","/api/user/adminUpdateDetails","/api/user/findbyrole","/leaveRequests/approveLeave","/leaveRequests/rejectLeave"
-                		,"/api/user/otpvalidation","/api/user/updatePassword")
+                		,"/api/user/otpvalidation","/api/user/updatePassword","/api/user/findbyemail")
                 .hasAuthority("Admin")
                 //HR access apis
                 .requestMatchers("/leaveBalance/addleaves","/api/user/registeremp","/api/user/saveeducationaldetails","/leaveRequests/approveLeave","/leaveRequests/rejectLeave","/api/user/team","/api/user/deleteemployee","/api/user/findbyrole","/leaveRequests/findpendingleaves",
-                		"/bankdetails/addbankdetails","/bankdetails/findallbankdetails","/educationaldetails/getallEducationalDetails" )
+                		"/bankdetails/addbankdetails","/bankdetails/findallbankdetails","/educationaldetails/getallEducationalDetails","/api/user/findbyemail" )
                 .hasAuthority("HR")
-                .requestMatchers("/leaveBalance/availableLeaves","/leaveRequests/applyLeave","/api/user/updatemployee","/leaveRequests/findEmpleaves","/educationaldetails/saveeducationaldetails")
+                .requestMatchers("/leaveBalance/availableLeaves","/leaveRequests/applyLeave","/api/user/updatemployee","/leaveRequests/findEmpleaves","/educationaldetails/saveeducationaldetails","/api/user/findbyemail")
                 .hasAuthority("Employee")
                 
             )

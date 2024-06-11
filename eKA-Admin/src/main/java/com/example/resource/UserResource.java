@@ -46,8 +46,7 @@ public class UserResource {
     @Autowired
     private PasswordEncoder passwordEncoder;
     
-    @Autowired
-    private EducationDetailsService educationService;
+  
 
     @Autowired
     private JwtUtils jwtUtils;
@@ -64,6 +63,16 @@ public class UserResource {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
+        
+        
+        User getbyemail = service.getbyemail(request.getEmail());
+        
+        if(getbyemail!=null) {
+        	response.setMessage("user alredy register this mail");
+        	response.setStatus(false);
+        	 return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+        
         User userEntity = RequestUserDto.toUserEntity(request);
         userEntity.setRole("HR");
         userEntity.setStatus("Active");
@@ -177,6 +186,23 @@ return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     //give special permission
     public ResponseEntity<CommonApiResponse> grantRole(String email) {
         CommonApiResponse response = new CommonApiResponse();
+        if(email==null) {
+			response.setMessage("missing input");
+			response.setStatus(false);
+			return new ResponseEntity<CommonApiResponse>(response,HttpStatus.BAD_REQUEST);
+		}
+        
+        String role="HR";
+        
+        User byEmailAndRole = service.findByEmailAndRole(email, role);
+        
+        if(byEmailAndRole==null) {
+      	  response.setMessage("permissin given failed its only for Hr s");
+            response.setStatus(false);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+
+      }
+        
         boolean success = service.grantRole(email);
         if (success) {
             response.setMessage("Role granted successfully");
@@ -191,13 +217,32 @@ return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 //remove special permission
     public ResponseEntity<CommonApiResponse> revokeRole(String email) {
         CommonApiResponse response = new CommonApiResponse();
+        
+        if(email==null) {
+			response.setMessage("missing input");
+			response.setStatus(false);
+			return new ResponseEntity<CommonApiResponse>(response,HttpStatus.BAD_REQUEST);
+		}
+        
+        
+         String role="Special";
+        
+        User byEmailAndRole = service.findByEmailAndRole(email, role);
+        
+        if(byEmailAndRole==null) {
+        	  response.setMessage("User not found or role revocation failed");
+              response.setStatus(false);
+              return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+
+        }
+        
         boolean success = service.revokeRole(email);
         if (success) {
             response.setMessage("Role revoked successfully");
             response.setStatus(true);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
-            response.setMessage("User not found or role revocation failed");
+            response.setMessage("revocation failed");
             response.setStatus(false);
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
@@ -206,6 +251,8 @@ return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     //register employee
     public ResponseEntity<CommonApiResponse> registeremployeeUser(RequestUserDto request) {
         CommonApiResponse response = new CommonApiResponse();
+        
+        
 
         if (request == null) {
             response.setMessage("Missing input");
@@ -213,6 +260,17 @@ return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
+        
+        
+        User getbyemail = service.getbyemail(request.getEmail());
+        
+        if(getbyemail!=null) {
+        	response.setMessage("user alredy register this mail");
+        	response.setStatus(false);
+        	 return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+        
+        
         User userEntity = RequestUserDto.toUserEntity(request);
         
 
@@ -236,6 +294,35 @@ return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
    
+    
+    
+    public ResponseEntity<UserResponseDto>findbyemail(String email){
+    	
+    	
+    	
+    	
+    	UserResponseDto dto = new UserResponseDto();
+    	
+    	
+    	if(email==null) {
+			dto.setMessage("missing input");
+			dto.setStatus(false);
+			return new ResponseEntity<UserResponseDto>(dto,HttpStatus.BAD_REQUEST);
+		}
+    	
+    	User getbyemail = service.getbyemail(email);
+    	if(getbyemail==null) {
+    		dto.setMessage("user not found");
+    		dto.setStatus(false);
+    		return new ResponseEntity<UserResponseDto>(dto,HttpStatus.NOT_FOUND);
+    	}
+    	
+    	dto.setSingleuser(getbyemail);
+    	dto.setMessage("user  found");
+		dto.setStatus(true);
+		return new ResponseEntity<UserResponseDto>(dto,HttpStatus.OK);
+    }
+    
     
   
     
@@ -272,7 +359,16 @@ return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     
     //findby role
   public ResponseEntity<UserResponseDto>findbyrole(String role){
+	  
+	  
 	  UserResponseDto response = new UserResponseDto();
+	  
+	  
+	  if(role==null) {
+			response.setMessage("missing input");
+			response.setStatus(false);
+			return new ResponseEntity<UserResponseDto>(response,HttpStatus.BAD_REQUEST);
+		}
 	  
 	  List<User> byRole = service.findByRole(role);
 	  
@@ -290,6 +386,13 @@ return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
   //delete Employee
   public ResponseEntity<CommonApiResponse>deleteemployee(String email){
 	   CommonApiResponse response = new CommonApiResponse();
+	   
+	   
+	   if(email==null) {
+			response.setMessage("missing input");
+			response.setStatus(false);
+			return new ResponseEntity<CommonApiResponse>(response,HttpStatus.BAD_REQUEST);
+		}
 	   User getbyemail = service.getbyemail(email);
  	  
  	  if(getbyemail==null) {
@@ -335,6 +438,13 @@ return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
   public ResponseEntity<CommonApiResponse>updateAdminDetails(AdminUpdateDetailsDto dto){
 	  
 		  CommonApiResponse response = new CommonApiResponse();
+		  
+		  
+		  if(dto==null) {
+				response.setMessage("missing input");
+				response.setStatus(false);
+				return new ResponseEntity<CommonApiResponse>(response,HttpStatus.BAD_REQUEST);
+			}
 		 
 		  User byEmailAndRole = service.findByEmailAndRole(dto.getEmail(), dto.getRole());
 	  
@@ -343,7 +453,7 @@ return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 	  response.setStatus(false); return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
 	  } 
 	  byEmailAndRole.setMobileno(dto.getMobileno());
-	  byEmailAndRole.setFirstname(dto.getName());
+	  byEmailAndRole.setFirstname(dto.getFirstname());
 	  User update = service.savedata(byEmailAndRole);
 	  if(update==null) {
 		  response.setMessage("update failed");
