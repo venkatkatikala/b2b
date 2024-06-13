@@ -20,7 +20,7 @@ import com.example.dto.RequestUserDto;
 import com.example.dto.UserLoginRequest;
 import com.example.dto.UserLoginResponse;
 import com.example.dto.UserResponseDto;
-import com.example.entity.EducationDetails;
+
 import com.example.resource.UserResource;
 @RestController
 @RequestMapping("/api/user")
@@ -50,7 +50,7 @@ public class UserController {
     //find user by email
     
     @GetMapping(value = "/findbyemail")
-    public ResponseEntity<UserResponseDto>findbyemail( @RequestParam String email){
+    public ResponseEntity<UserResponseDto>findbyemail( @RequestParam ("email") String email){
     	return resource.findbyemail(email);
     }
     
@@ -66,13 +66,13 @@ public class UserController {
     //Admin special permission given api 
     @PostMapping("/grant-role")
     //@PreAuthorize("hasAuthority('Admin')")
-    public ResponseEntity<CommonApiResponse> grantRole(@RequestParam String email) {
+    public ResponseEntity<CommonApiResponse> grantRole(@RequestParam ("email") String email) {
         return resource.grantRole(email);
     }
     //Admin special permission remove api 
     @PostMapping("/revoke-role")
     //@PreAuthorize("hasAuthority('Admin')")
-    public ResponseEntity<CommonApiResponse> revokeRole(@RequestParam String email) {
+    public ResponseEntity<CommonApiResponse> revokeRole(@RequestParam ("email") String email) {
         return resource.revokeRole(email);
     }
     
@@ -86,7 +86,7 @@ public class UserController {
     
     //employee update his details api its only update name and mobile number
     @PutMapping(value = "/updatemployee")
-    public ResponseEntity<CommonApiResponse>updateemployee(@RequestParam String name,@RequestParam Long mobileno,@RequestParam String email){
+    public ResponseEntity<CommonApiResponse>updateemployee(@RequestParam ("name") String name,@RequestParam ("mobileno") Long mobileno,@RequestParam ("email") String email){
     	return resource.updateemployee(name, mobileno, email);
     }
     
@@ -99,7 +99,7 @@ public class UserController {
     
     //remove employee a[i
     @PutMapping(value = "/deleteemployee")
-    public ResponseEntity<CommonApiResponse>deleteemployee(@RequestParam String email){
+    public ResponseEntity<CommonApiResponse>deleteemployee(@RequestParam ("email") String email){
     	return resource.deleteemployee( email);
     }
     

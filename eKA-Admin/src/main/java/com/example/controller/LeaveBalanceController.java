@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.dto.AddLeaveBalanceDto;
 import com.example.dto.CommonApiResponse;
 import com.example.dto.UserResponseDto;
-import com.example.entity.LeaveBalance;
+
 import com.example.resource.LeaveBalanceResource;
 
 @RestController
@@ -33,7 +33,7 @@ public class LeaveBalanceController {
 	}
 	
 	@GetMapping(value = "/availableLeaves")
-	public ResponseEntity<UserResponseDto>checkavailabeleaves(@RequestParam Long empnumber){
+	public ResponseEntity<UserResponseDto>checkavailabeleaves(@RequestParam ("empnumber") Long empnumber){
 		return resource.checkavailabeleaves(empnumber);
 	}
 }

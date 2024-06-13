@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.dto.ApplyLeaveRequestDto;
 import com.example.dto.CommonApiResponse;
 import com.example.dto.UserResponseDto;
-import com.example.entity.LeaveRequest;
+
 import com.example.resource.LeaveRequestResource;
 
 @RestController
@@ -34,13 +34,13 @@ public class LeaveRequestController {
 	}
 	
 	@PutMapping(value = "/approveLeave")
-	public ResponseEntity<CommonApiResponse>approveleave(@RequestParam Long empnumber){
+	public ResponseEntity<CommonApiResponse>approveleave(@RequestParam ("empnumber") Long empnumber){
 		return resource.approveLeave(empnumber);
 	}
 	
 	//leave reject api
 	@PutMapping(value = "/rejectLeave")
-	public ResponseEntity<CommonApiResponse>rejectleave(@RequestParam Long empnumber){
+	public ResponseEntity<CommonApiResponse>rejectleave(@RequestParam ("empnumber") Long empnumber){
 		return resource.rejectLeave(empnumber);
 	}
 	//find pending leaves api
@@ -51,7 +51,7 @@ public class LeaveRequestController {
 	
 	//api for find employee apply leaves history
 	@GetMapping(value = "/findEmpleaves")
-	public ResponseEntity<UserResponseDto>findempleavesrequests(@RequestParam Long empnumber){
+	public ResponseEntity<UserResponseDto>findempleavesrequests(@RequestParam ("empnumber") Long empnumber){
 		return resource.findempleavesrequests(empnumber);
 	}
 }

@@ -1,6 +1,6 @@
 package com.example.resource;
 
-import java.util.Arrays;
+
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,8 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +24,10 @@ import com.example.dto.RequestUserDto;
 import com.example.dto.UserLoginRequest;
 import com.example.dto.UserLoginResponse;
 import com.example.dto.UserResponseDto;
-import com.example.entity.EducationDetails;
+
 import com.example.entity.User;
 import com.example.security.JwtUtils;
-import com.example.service.EducationDetailsService;
+
 import com.example.service.OtpService;
 import com.example.service.UserService;
 
@@ -329,7 +328,7 @@ return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     
     //update employee
     
-    public ResponseEntity<CommonApiResponse>updateemployee(String firstname,Long mobileno,String email){
+    public ResponseEntity<CommonApiResponse>updateemployee(String name,Long mobileno,String email){
     	
     	  CommonApiResponse response = new CommonApiResponse();
     	  User getbyemail = service.getbyemail(email);
@@ -340,7 +339,7 @@ return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
               return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     	  }
     	  
-    	  getbyemail.setFirstname(firstname);
+    	  getbyemail.setFirstname(name);
     	  getbyemail.setMobileno(mobileno);
     	  User savedata = service.savedata(getbyemail);
     	  

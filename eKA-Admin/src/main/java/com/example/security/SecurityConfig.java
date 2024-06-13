@@ -42,15 +42,28 @@ public class SecurityConfig {
             	
                 .requestMatchers("/api/user/login", "api/user/send-otp").permitAll()
                 // Admin Access apis
-                .requestMatchers("/api/user/grant-role", "/api/user/register","/api/user/allusers","/api/user/revoke-role","/api/user/team","/api/user/adminUpdateDetails","/api/user/findbyrole","/leaveRequests/approveLeave","/leaveRequests/rejectLeave"
-                		,"/api/user/otpvalidation","/api/user/updatePassword","/api/user/findbyemail")
+                .requestMatchers("/api/user/grant-role", "/api/user/register","/api/user/revoke-role","/api/user/team","/api/user/adminUpdateDetails","/api/user/findbyrole"
+                		,"/api/user/otpvalidation","/api/user/updatePassword")
                 .hasAuthority("Admin")
                 //HR access apis
-                .requestMatchers("/leaveBalance/addleaves","/api/user/registeremp","/api/user/saveeducationaldetails","/leaveRequests/approveLeave","/leaveRequests/rejectLeave","/api/user/team","/api/user/deleteemployee","/api/user/findbyrole","/leaveRequests/findpendingleaves",
-                		"/bankdetails/addbankdetails","/bankdetails/findallbankdetails","/educationaldetails/getallEducationalDetails","/api/user/findbyemail" )
-                .hasAuthority("HR")
-                .requestMatchers("/leaveBalance/availableLeaves","/leaveRequests/applyLeave","/api/user/updatemployee","/leaveRequests/findEmpleaves","/educationaldetails/saveeducationaldetails","/api/user/findbyemail")
+						/*
+						 * .requestMatchers("/leaveBalance/addleaves","/api/user/registeremp",
+						 * "/api/user/saveeducationaldetails","/leaveRequests/approveLeave",
+						 * "/leaveRequests/rejectLeave","/api/user/team","/api/user/deleteemployee",
+						 * "/api/user/findbyrole","/leaveRequests/findpendingleaves",
+						 * "/bankdetails/addbankdetails","/bankdetails/findallbankdetails",
+						 * "/educationaldetails/getallEducationalDetails" ) .hasAuthority("HR")
+						 */
+                .requestMatchers("/leaveBalance/availableLeaves","/leaveRequests/applyLeave","/api/user/updatemployee","/leaveRequests/findEmpleaves","/educationaldetails/saveeducationaldetails")
                 .hasAuthority("Employee")
+                // Common access for all authenticated users
+                .requestMatchers("/api/user/findbyemail").hasAnyAuthority("Admin", "HR", "Employee")
+                .requestMatchers("/leaveBalance/addleaves","/api/user/registeremp","/api/user/saveeducationaldetails","/leaveRequests/rejectLeave","/api/user/team","/api/user/deleteemployee",
+                		"/api/user/findbyrole","/leaveRequests/findpendingleaves",
+                		"/bankdetails/addbankdetails","/bankdetails/findallbankdetails",
+                		"/educationaldetails/getallEducationalDetails","/leaveBalance/availableLeaves","/leaveRequests/applyLeave","/api/user/updatemployee",
+                		"/leaveRequests/findEmpleaves","/educationaldetails/saveeducationaldetails","/api/user/team","/api/user/findbyrole")
+                .hasAnyAuthority("HR","Special","Admin")
                 
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
