@@ -12,6 +12,8 @@ import com.RequestAndComplaints.dao.UserRepository;
 import com.RequestAndComplaints.dto.CommonApiResponse;
 import com.RequestAndComplaints.entity.User;
 import com.RequestAndComplaints.entity.WorkFromHome;
+import com.RequestAndComplaints.exceptions.DataNotFound;
+import com.RequestAndComplaints.exceptions.WorkFromHomeRequestFailedException;
 import com.RequestAndComplaints.service.EmailService;
 import com.RequestAndComplaints.service.WorkFromHomeService;
 
@@ -46,9 +48,7 @@ public class WorkFromHomeResource {
         // Add the work from home request
         WorkFromHome addRequest = service.addrequest(work);
         if(addRequest==null) {
-        	 response.setStatus(false);
-             response.setMessage("failed to send work from home request");
-             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        throw new WorkFromHomeRequestFailedException("failed to send work from home request");
         }
 
         // Set the response object properties
@@ -104,9 +104,7 @@ public class WorkFromHomeResource {
     	
     	List<WorkFromHome> byEmpnumber = service.findByEmpnumber(emmnumber);
     	if(byEmpnumber.isEmpty()) {
-    		response.setMessage("not data found");
-    		response.setStatus(false);
-    		return new ResponseEntity<CommonApiResponse>(response,HttpStatus.NOT_FOUND);
+    		throw new DataNotFound("no data found");
     	}
     	response.setListwork(byEmpnumber);
     	response.setMessage(" data found");
@@ -120,9 +118,7 @@ public class WorkFromHomeResource {
     	List<WorkFromHome> byStatus = service.findByStatus();
     	
     	if(byStatus.isEmpty()) {
-    		response.setMessage("not data found");
-    		response.setStatus(false);
-    		return new ResponseEntity<CommonApiResponse>(response,HttpStatus.NOT_FOUND);
+    		throw new DataNotFound("no data found");
     	}
     	response.setListwork(byStatus);
     	response.setMessage(" data found");

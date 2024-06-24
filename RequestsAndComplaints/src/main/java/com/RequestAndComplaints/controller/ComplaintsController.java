@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,14 +21,14 @@ public class ComplaintsController {
 	ComplaintsResource resource;
 	
 	@PostMapping(value = "/addcomplaint")
-	public ResponseEntity<CommonApiResponse>addcomplaint(Complaints com){
-		return resource.addcomplaints(com);
+	public ResponseEntity<CommonApiResponse>addcomplaint(@RequestBody Complaints com){
+		return resource.addComplaints(com);
 	}
 	
 	@GetMapping(value = "/findbyempnumber")
-	public ResponseEntity<CommonApiResponse>findcompliantsByempnumber(@RequestParam long empnumber){
+	public ResponseEntity<CommonApiResponse>findcompliantsByempnumber(@RequestParam ("empnumber") long empnumber){
 		return resource.findcomplaintsByempnumber(empnumber);
-	}
+	} 
 	
 	@GetMapping(value = "/allcomplaints")
 	public ResponseEntity<CommonApiResponse>allcomplaints(){

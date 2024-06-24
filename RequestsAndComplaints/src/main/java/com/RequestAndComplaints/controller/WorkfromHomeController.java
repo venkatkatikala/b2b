@@ -27,17 +27,17 @@ public class WorkfromHomeController {
 	}
 	
 	@PutMapping(value = "/approve")
-	public ResponseEntity<CommonApiResponse>approverequest(@RequestParam long empnumber){
+	public ResponseEntity<CommonApiResponse>approverequest(@RequestParam ("empnumber") long empnumber){
 		return resource.approveWorkFromHomeRequest(empnumber);
 	}
 	
 	@PutMapping(value = "/reject")
-	public ResponseEntity<CommonApiResponse>rejectrequest(@RequestParam long empnumber){
+	public ResponseEntity<CommonApiResponse>rejectrequest(@RequestParam ("empnumber") long empnumber){
 		return resource.rejectWorkFromHomeRequest(empnumber);
 	}
 	
 	@GetMapping(value = "/findbyempnumber")
-	 public ResponseEntity<CommonApiResponse> findByempnumber(long emmnumber) {
+	 public ResponseEntity<CommonApiResponse> findByempnumber( @RequestParam ("empnumber") long emmnumber) {
 		 return resource.findByempnumber(emmnumber);
 	 }
 	

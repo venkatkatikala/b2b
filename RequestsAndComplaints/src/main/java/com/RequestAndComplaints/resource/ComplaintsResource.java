@@ -11,6 +11,8 @@ import com.RequestAndComplaints.dao.UserRepository;
 import com.RequestAndComplaints.dto.CommonApiResponse;
 import com.RequestAndComplaints.entity.Complaints;
 import com.RequestAndComplaints.entity.User;
+import com.RequestAndComplaints.exceptions.DataNotFound;
+import com.RequestAndComplaints.exceptions.UserNotFoundException;
 import com.RequestAndComplaints.service.ComplaintsService;
 
 @Service
@@ -21,25 +23,25 @@ public class ComplaintsResource {
 	@Autowired
 	UserRepository dao;
 	
-	public ResponseEntity<CommonApiResponse>addcomplaints(Complaints com){
-		CommonApiResponse response = new CommonApiResponse();
-		
-		User user = dao.findByEmpnumber(com.getEmpnumber());
-		if(user==null) {
-			response.setMessage("your not authorized person");
-			response.setStatus(false);
-			return new ResponseEntity<CommonApiResponse>(response,HttpStatus.NOT_FOUND);
-		}
-		Complaints addcomplaints = service.addcomplaints(com);
-		if(addcomplaints==null) {
-			response.setMessage("failed to send complaint");
-			response.setStatus(false);
-			return new ResponseEntity<CommonApiResponse>(response,HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		response.setMessage("successfully send complaint");
-		response.setStatus(true);
-		return new ResponseEntity<CommonApiResponse>(response,HttpStatus.OK);
-	}
+	public ResponseEntity<CommonApiResponse> addComplaints( Complaints com) {
+        CommonApiResponse response = new CommonApiResponse();
+
+        User user = dao.findByEmpnumber(com.getEmpnumber());
+        if (user == null) {
+          throw new UserNotFoundException("You're not an authorized person");
+        }
+
+        Complaints addComplaints = service.addcomplaints(com);
+        if (addComplaints == null) {
+            response.setMessage("Failed to send complaint");
+            response.setStatus(false);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        response.setMessage("Successfully sent complaint");
+        response.setStatus(true);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 	
 	public ResponseEntity<CommonApiResponse>findcomplaintsByempnumber(long empnumber){
 		CommonApiResponse response = new CommonApiResponse();
@@ -47,9 +49,7 @@ public class ComplaintsResource {
 		List<Complaints> findbyempnumber = service.findbyempnumber(empnumber);
 		
 		if(findbyempnumber.isEmpty()) {
-			response.setMessage("no complaints found");
-			response.setStatus(false);
-			return new ResponseEntity<CommonApiResponse>(response,HttpStatus.NOT_FOUND);
+			throw new DataNotFound("no complaints found");
 		}
 		response.setListcomplaints(findbyempnumber);
 		response.setMessage("data found");
@@ -63,9 +63,7 @@ public class ComplaintsResource {
 		
 		List<Complaints> findallcomplaints = service.findallcomplaints();
 		if(findallcomplaints.isEmpty()) {
-			response.setMessage("no complaints found");
-			response.setStatus(false);
-			return new ResponseEntity<CommonApiResponse>(response,HttpStatus.NOT_FOUND);
+			throw new DataNotFound("no complaints found");
 		}
 		
 		response.setListcomplaints(findallcomplaints);
