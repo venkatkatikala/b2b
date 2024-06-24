@@ -76,6 +76,7 @@ public class UserResource {
 		User userEntity = RequestUserDto.toUserEntity(request);
 		userEntity.setRole("HR");
 		userEntity.setStatus("Active");
+		userEntity.setEmpnumber(request.getEmpNumber());
 
 		userEntity.setPassword(encoder.encode(request.getPassword()));
 
@@ -250,6 +251,7 @@ public class UserResource {
 
 		userEntity.setRole("Employee");
 		userEntity.setStatus("Active");
+		userEntity.setEmpnumber(request.getEmpNumber());
 		userEntity.setPassword(encoder.encode(request.getPassword()));
 
 		User savedata = service.savedata(userEntity);

@@ -32,7 +32,9 @@ public class AdminModuleEkaApplication {
                 adminUser.setEmail(adminEmail);
                 adminUser.setPassword(passwordEncoder.encode(adminPassword));
                 adminUser.setRole(adminRole);
+                adminUser.setEmpnumber(1234);
                 userService.savedata(adminUser);
+                
             }
         };}
 }

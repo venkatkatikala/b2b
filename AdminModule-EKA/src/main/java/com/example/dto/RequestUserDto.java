@@ -28,7 +28,7 @@ public class RequestUserDto {
 	
 	private String password;
 
-	 private Long empNumber;
+	 private long empNumber;
 	 
 	
 	
