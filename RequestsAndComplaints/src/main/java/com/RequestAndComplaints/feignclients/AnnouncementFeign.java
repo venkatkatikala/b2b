@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.RequestAndComplaints.dto.CommonApiResponse;
 import com.RequestAndComplaints.entity.Announcement;
 
-@FeignClient("AnnouncementsModule")
+
+
+@FeignClient(name = "AnnouncementsModule", configuration = FeignConfig.class)
 public interface AnnouncementFeign {
 	
 	@PostMapping(value = "/announcments/addannouncement")

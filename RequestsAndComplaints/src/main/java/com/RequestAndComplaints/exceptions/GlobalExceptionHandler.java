@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.RequestAndComplaints.dto.CommonApiResponse;
+import com.RequestAndComplaints.feignclients.BadRequestException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -57,4 +58,9 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<CommonApiResponse>(apiResponse, HttpStatus.BAD_REQUEST);
 		
 	}
+	
+	 @ExceptionHandler(BadRequestException.class)
+	    public ResponseEntity<String> handleBadRequestException(BadRequestException ex) {
+	        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+	    }
 }

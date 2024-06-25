@@ -12,7 +12,8 @@ import com.example.entity.Complaints;
 
 
 
-@FeignClient("RequestsAndComplaints")
+
+@FeignClient(name = "RequestsAndComplaints", configuration = FeignConfig.class)
 public interface RequestAndComplaintsFeign {
 
 	@PostMapping(value = "/complaints/addcomplaint")

@@ -53,6 +53,8 @@ public class LeaveRequestResource {
 
 	            LeaveRequest leaveRequest = ApplyLeaveRequestDto.toLeaveRequestEntity(leaveRequestDto, user);
 	            leaveRequest.setStatus("Pending");
+	            leaveRequest.setEmployeeEmail(leaveRequests.get(0).getEmployeeEmail());
+	            
 
 	            int requestedLeaveDays = calculateLeaveDays(leaveRequest);
 
@@ -70,7 +72,7 @@ public class LeaveRequestResource {
 	                response.setStatus(false);
 	                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	            }
-
+	           
 	            boolean isLeaveApplied = leaveRequestService.applyLeave(leaveRequest);
 	            if (isLeaveApplied) {
 	                leaveBalanceService.updateLeaveBalance(leaveRequest);

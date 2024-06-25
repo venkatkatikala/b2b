@@ -1,14 +1,11 @@
 package com.example.resource;
 
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,16 +14,12 @@ import com.example.dto.AdminPasswordAndEmailUpdate;
 import com.example.dto.AdminUpdateDetailsDto;
 import com.example.dto.CommonApiResponse;
 import com.example.dto.OTPValidation;
-import com.example.dto.OtpRequest;
 import com.example.dto.RequestUserDto;
-import com.example.dto.UserLoginRequest;
-import com.example.dto.UserLoginResponse;
 import com.example.dto.UserResponseDto;
 import com.example.entity.User;
 import com.example.exceptions.MissingInputException;
 import com.example.exceptions.UserNotFoundException;
 import com.example.exceptions.UserSaveFailedException;
-import com.example.security.JwtUtils;
 import com.example.service.OtpService;
 import com.example.service.UserService;
 
@@ -39,17 +32,14 @@ public class UserResource {
 	private UserService service;
 
 	
-	 @Autowired private AuthenticationManager authenticationManager;
-	 
 
 	
-	  @Autowired private PasswordEncoder passwordEncoder;
+	 // @Autowired private PasswordEncoder passwordEncoder;
 	 
 @Autowired
 	PasswordEncoder encoder;
 	
 	
-	  @Autowired private JwtUtils jwtUtils;
 	 
 
 	@Autowired
@@ -90,70 +80,59 @@ public class UserResource {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
-	
-	  //login api
-	public ResponseEntity<UserLoginResponse> login(UserLoginRequest
-	  loginRequest) { UserLoginResponse response = new UserLoginResponse();
-	  
-	  if (loginRequest == null) { response.setMessage("Missing input");
-	  response.setStatus(false); return new ResponseEntity<>(response,
-	  HttpStatus.BAD_REQUEST); }
-	  
-	  String jwtToken; User user;
-	  
-	  // List<GrantedAuthority> authorities = Arrays.asList(new
-	  //SimpleGrantedAuthority(loginRequest.getRole()));
-	  
-	  try { if (loginRequest.getOtp() != null && !loginRequest.getOtp().isEmpty())
-	  { if (!otpService.validateOtp(loginRequest.getEmailId(),
-	  loginRequest.getOtp())) { response.setMessage("Invalid OTP.");
-	  response.setStatus(false); return new ResponseEntity<>(response,
-	  HttpStatus.BAD_REQUEST); } } else { authenticationManager.authenticate(new
-	  UsernamePasswordAuthenticationToken( loginRequest.getEmailId(),
-	  loginRequest.getPassword())); } } catch (Exception ex) {
-	  logger.log(Level.SEVERE, "Authentication failed", ex);
-	  response.setMessage("Invalid email or password."); response.setStatus(false);
-	  return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST); }
-	  
-	  jwtToken = jwtUtils.generateToken(loginRequest.getEmailId()); user =
-	  service.getbyemail(loginRequest.getEmailId());
-	  
-	  if (jwtToken != null) { response.setUser(user);
-	  response.setMessage("Logged in successfully"); response.setStatus(true);
-	  response.setJwtToken(jwtToken); return new ResponseEntity<>(response,
-	  HttpStatus.OK); } else { response.setMessage("Login failed");
-	  response.setStatus(false); return new ResponseEntity<>(response,
-	  HttpStatus.BAD_REQUEST); } }
-	 
-	 
-//otp send
-	public ResponseEntity<CommonApiResponse> sendOtp(OtpRequest otpRequest) {
-		CommonApiResponse response = new CommonApiResponse();
-
-		if (otpRequest == null || otpRequest.getEmail() == null) {
-			response.setMessage("Missing email");
-			response.setStatus(false);
-			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-		}
-		User getbyemail = service.getbyemail(otpRequest.getEmail());
-		if (getbyemail != null) {
-			try {
-				otpService.generateAndSendOtp(otpRequest.getEmail());
-				response.setMessage("OTP sent successfully");
-				response.setStatus(true);
-				return new ResponseEntity<>(response, HttpStatus.OK);
-			} catch (Exception e) {
-				logger.log(Level.SEVERE, "Failed to send OTP", e);
-				response.setMessage("Failed to send OTP");
-				response.setStatus(false);
-				return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-		} else
-			response.setMessage("Give proper email");
-		response.setStatus(false);
-		return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-
-	}
+	/*
+	 * //login api public ResponseEntity<UserLoginResponse> login(UserLoginRequest
+	 * loginRequest) { UserLoginResponse response = new UserLoginResponse();
+	 * 
+	 * if (loginRequest == null) { response.setMessage("Missing input");
+	 * response.setStatus(false); return new ResponseEntity<>(response,
+	 * HttpStatus.BAD_REQUEST); }
+	 * 
+	 * String jwtToken; User user;
+	 * 
+	 * // List<GrantedAuthority> authorities = Arrays.asList(new
+	 * //SimpleGrantedAuthority(loginRequest.getRole()));
+	 * 
+	 * try { if (loginRequest.getOtp() != null && !loginRequest.getOtp().isEmpty())
+	 * { if (!otpService.validateOtp(loginRequest.getEmailId(),
+	 * loginRequest.getOtp())) { response.setMessage("Invalid OTP.");
+	 * response.setStatus(false); return new ResponseEntity<>(response,
+	 * HttpStatus.BAD_REQUEST); } } else { authenticationManager.authenticate(new
+	 * UsernamePasswordAuthenticationToken( loginRequest.getEmailId(),
+	 * loginRequest.getPassword())); } } catch (Exception ex) {
+	 * logger.log(Level.SEVERE, "Authentication failed", ex);
+	 * response.setMessage("Invalid email or password."); response.setStatus(false);
+	 * return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST); }
+	 * 
+	 * jwtToken = jwtUtils.generateToken(loginRequest.getEmailId()); user =
+	 * service.getbyemail(loginRequest.getEmailId());
+	 * 
+	 * if (jwtToken != null) { response.setUser(user);
+	 * response.setMessage("Logged in successfully"); response.setStatus(true);
+	 * response.setJwtToken(jwtToken); return new ResponseEntity<>(response,
+	 * HttpStatus.OK); } else { response.setMessage("Login failed");
+	 * response.setStatus(false); return new ResponseEntity<>(response,
+	 * HttpStatus.BAD_REQUEST); } }
+	 * 
+	 * 
+	 * //otp send public ResponseEntity<CommonApiResponse> sendOtp(OtpRequest
+	 * otpRequest) { CommonApiResponse response = new CommonApiResponse();
+	 * 
+	 * if (otpRequest == null || otpRequest.getEmail() == null) {
+	 * response.setMessage("Missing email"); response.setStatus(false); return new
+	 * ResponseEntity<>(response, HttpStatus.BAD_REQUEST); } User getbyemail =
+	 * service.getbyemail(otpRequest.getEmail()); if (getbyemail != null) { try {
+	 * otpService.generateAndSendOtp(otpRequest.getEmail());
+	 * response.setMessage("OTP sent successfully"); response.setStatus(true);
+	 * return new ResponseEntity<>(response, HttpStatus.OK); } catch (Exception e) {
+	 * logger.log(Level.SEVERE, "Failed to send OTP", e);
+	 * response.setMessage("Failed to send OTP"); response.setStatus(false); return
+	 * new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR); } } else
+	 * response.setMessage("Give proper email"); response.setStatus(false); return
+	 * new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+	 * 
+	 * }
+	 */
 
 	public ResponseEntity<UserResponseDto> fetchAllUsers() {
 		UserResponseDto api = new UserResponseDto();

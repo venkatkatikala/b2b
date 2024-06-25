@@ -52,7 +52,10 @@ public class AnnouncementResource {
 		
 		List<Announcement> findall = service.findall();
 		if(findall.isEmpty()) {
-			
+			/*
+			 * dto.setMessage("no data found"); dto.setStatus(false); return new
+			 * ResponseEntity<ResponseDto>(dto,HttpStatus.INTERNAL_SERVER_ERROR);
+			 */
 			throw new DataNotFound("No new announcement data found");
 		}
 		dto.setListannounce(findall);

@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.announments.dto.CommonApiResponse;
 import com.announments.entity.WorkFromHome;
 
-@FeignClient("RequestsAndComplaints")
+
+@FeignClient(name = "RequestsAndComplaints", configuration = FeignConfig.class)
 public interface RequestAndComplaintsFeign {
 	
 

@@ -37,19 +37,20 @@ public class UserController {
     }
 
 	
-	  //login api for all
-		
-		  @PostMapping("/login") public ResponseEntity<UserLoginResponse>
-		  login(@RequestBody UserLoginRequest userLoginRequest) { return
-		  resource.login(userLoginRequest); }
-		 
-	 
-//login otp send api
-    @PostMapping("/send-otp")
-    public ResponseEntity<CommonApiResponse> sendOtp(@RequestBody OtpRequest otpRequest) {
-        return resource.sendOtp(otpRequest);
-    }
-    
+	/*
+	 * //login api for all
+	 * 
+	 * @PostMapping("/login") public ResponseEntity<UserLoginResponse>
+	 * login(@RequestBody UserLoginRequest userLoginRequest) { return
+	 * resource.login(userLoginRequest); }
+	 * 
+	 * 
+	 * //login otp send api
+	 * 
+	 * @PostMapping("/send-otp") public ResponseEntity<CommonApiResponse>
+	 * sendOtp(@RequestBody OtpRequest otpRequest) { return
+	 * resource.sendOtp(otpRequest); }
+	 */
     //find user by email
     
     @GetMapping(value = "/findbyemail")

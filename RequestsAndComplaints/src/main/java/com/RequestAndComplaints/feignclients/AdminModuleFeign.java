@@ -9,7 +9,8 @@ import com.RequestAndComplaints.dto.CommonApiResponse;
 import com.RequestAndComplaints.dto.RequestUserDto;
 
 
-@FeignClient("AdminModule-EKA")
+
+@FeignClient(name = "AdminModule-EKA", configuration = FeignConfig.class)
 public interface AdminModuleFeign {
 
 	

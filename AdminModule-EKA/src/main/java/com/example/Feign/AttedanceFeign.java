@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.dto.AttendanceDTO;
 
-@FeignClient("Attendance1")
+
+@FeignClient(name = "Attendance1", configuration = FeignConfig.class)
 public interface AttedanceFeign {
 
 	 @PostMapping("/attendance/login")

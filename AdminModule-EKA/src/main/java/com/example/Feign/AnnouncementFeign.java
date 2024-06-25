@@ -11,8 +11,7 @@ import com.example.dto.ResponseDto;
 import com.example.entity.Announcement;
 
 
-
-@FeignClient("AnnouncementsModule")
+@FeignClient(name = "AnnouncementsModule", configuration = FeignConfig.class)
 public interface AnnouncementFeign {
 	
 	@PostMapping(value = "/announcments/addannouncement")

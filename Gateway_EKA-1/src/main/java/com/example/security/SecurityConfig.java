@@ -38,7 +38,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
             		
             		//this apis for all
-            		 .requestMatchers("/api/user/login", "api/user/send-otp").permitAll()
+            		 .requestMatchers("/auth/login", "/auth/send-otp").permitAll()
                      // Admin Access apis
                     
                      
@@ -46,7 +46,7 @@ public class SecurityConfig {
                       // Require authentication for any other requests
             		 
             		 // this apis for only admin
-            		 .requestMatchers("/RequestFeign/findallannouncements","/announcments/findallannouncements","/api/user/grant-role", "/api/user/register","/api/user/revoke-role","/api/user/team","/api/user/adminUpdateDetails","/api/user/findbyrole"
+            		 .requestMatchers("/RequestFeign/findallannouncements","/announcments/findallannouncements","/api/user/grant-role", "/api/user/hrregister","/api/user/revoke-role","/api/user/team","/api/user/adminUpdateDetails","/api/user/findbyrole"
                       		,"/api/user/otpvalidation","/api/user/updatePassword","/location/ip","/location/testing-location-service","/location/location").hasAnyAuthority("Admin")
             		 
             		 
@@ -62,7 +62,7 @@ public class SecurityConfig {
                      .hasAnyAuthority("Admin", "HR", "Employee")
                      
                      //this apis for admin hr and Special
-                     .requestMatchers("/leaveBalance/addleaves","/api/user/registeremp","/api/user/saveeducationaldetails","/leaveRequests/rejectLeave","/api/user/team","/api/user/deleteemployee",
+                     .requestMatchers("/leaveBalance/addleaves","/api/user/saveeducationaldetails","/leaveRequests/rejectLeave","/api/user/team","/api/user/deleteemployee",
                      		"/api/user/findbyrole","/leaveRequests/findpendingleaves",
                      		"/bankdetails/addbankdetails","/bankdetails/findallbankdetails",
                      		"/educationaldetails/getallEducationalDetails","/leaveBalance/availableLeaves","/leaveRequests/applyLeave","/RequestFeign/documentsdownload",
@@ -77,7 +77,7 @@ public class SecurityConfig {
                    // //this apis for hr admin
                      
                      .requestMatchers("/attendance/all","/documents/download","payroll/generate-payslips", "payroll/generate-payslip/{employeeId}","/payroll/payslip/{empId}",
-                    		 "/complaints/allcomplaints","/AdminFeign/registeremp","/workfromhome/approve","/workfromhome/reject").hasAnyAuthority("Admin","HR")
+                    		 "/complaints/allcomplaints","/AdminFeign/registeremp","/workfromhome/approve","/workfromhome/reject","/api/user/registeremp").hasAnyAuthority("Admin","HR")
                      
                      
                      

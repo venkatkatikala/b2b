@@ -13,6 +13,8 @@ import com.RequestAndComplaints.entity.Announcement;
 import com.RequestAndComplaints.feignclients.AdminModuleFeign;
 import com.RequestAndComplaints.feignclients.AnnouncementFeign;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+
 @RestController
 @RequestMapping("/AdminFeign")
 public class FeignController {
@@ -29,9 +31,17 @@ public class FeignController {
 		 return feign.emregisterUser(request);
 	 }
 	 
+	 
+	 
+	 @CircuitBreaker(fallbackMethod = "annfallback", name = "AnnouncementsModule")
 	 @PostMapping(value = "/addannouncement")
 		public ResponseEntity<CommonApiResponse>addannouncement( @RequestBody Announcement announce){
 		 return annfeign.addannouncement(announce);
 	 }
-	
+	 //circutebreaker for announcement
+	 
+	 public ResponseEntity<?>annfallback(java.lang.Throwable t){
+		 return ResponseEntity.ok("Announcement module is Down...");
+	 }
+	 
 }
