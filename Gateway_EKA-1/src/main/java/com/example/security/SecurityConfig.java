@@ -38,7 +38,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
             		
             		//this apis for all
-            		 .requestMatchers("/auth/login", "/auth/send-otp").permitAll()
+            		 .requestMatchers("/auth/login", "/auth/send-otp","/admintest","/annoncementtest","/attendancetest","/documenttest","/paymenttest","/requesttest").permitAll()
                      // Admin Access apis
                     
                      
