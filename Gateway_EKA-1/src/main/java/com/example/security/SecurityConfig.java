@@ -57,7 +57,7 @@ public class SecurityConfig {
                      
                      // this apis for admin hr and employeee
                      .requestMatchers("/attendance/logout","/attendance/id/{id}","/announceFeign/getbirthdays","/announceFeign/getnewjoiners","/announceFeign/findallannouncements","/api/user/findbyemail","/RequestFeign/addcomplaint","/RequestFeign/addannouncement","/RequestFeign/findallannouncements","/RequestFeign/findbyempnumber","/RequestFeign/login","/complaints/allcomplaints"
-                    		 ,"/complaints/addcomplaint","/complaints/findbyempnumber","/AdminFeign/addannouncement","/AdminnFeign/workfromhomerequest","/announcments/findallannouncements","/workfromhome/findbyempnumber","/user/getbirthdays","/user/getnewjoiners")
+                    		 ,"/complaints/addcomplaint","/complaints/findbyempnumber","/AdminFeign/addannouncement","/AdminnFeign/workfromhomerequest","/announcments/findallannouncements","/workfromhome/findbyempnumber","/user/getbirthdays","/user/getnewjoiners","/api/user/currentuser")
                      
                      .hasAnyAuthority("Admin", "HR", "Employee")
                      
