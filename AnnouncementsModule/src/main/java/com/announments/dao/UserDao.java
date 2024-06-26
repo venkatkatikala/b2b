@@ -15,11 +15,13 @@ import com.announments.entity.User;
 public interface UserDao extends JpaRepository<User, Integer> {
 
 	User findByEmpnumber(long empnumber);
-	   @Query("SELECT u FROM User u WHERE u.dob BETWEEN :startDate AND :endDate")
-	    List<User> findUsersWithBirthdaysBetween(LocalDate startDate, LocalDate endDate);
-	 
-	 @Query("SELECT u FROM User u WHERE u.dateofjoining BETWEEN :startDate AND :endDate")
-	    List<User> findUsersWithJoiningDatesBetween(LocalDate startDate, LocalDate endDate);
-	 
+	@Query(value = "SELECT * FROM User u WHERE MONTH(u.dob) = :month AND DAY(u.dob) BETWEEN :startDay AND :endDay", nativeQuery = true)
+    List<User> findUsersWithBirthdaysInMonthAndDayRange(@Param("month") int month, @Param("startDay") int startDay, @Param("endDay") int endDay);
+
+    @Query(value = "SELECT * FROM User u WHERE (MONTH(u.dob) = :startMonth AND DAY(u.dob) >= :startDay) OR (MONTH(u.dob) = :endMonth AND DAY(u.dob) <= :endDay)", nativeQuery = true)
+    List<User> findUsersWithBirthdaysInMonthAndDayRangeAcrossMonths(@Param("startMonth") int startMonth, @Param("startDay") int startDay, @Param("endMonth") int endMonth, @Param("endDay") int endDay);
+	
+		 @Query("SELECT u FROM User u WHERE u.dateofjoining BETWEEN :startDate AND :endDate")
+	List<User> findUsersWithJoiningDatesBetween(LocalDate startDate, LocalDate endDate);
 	 User findByEmail(String email);
 }

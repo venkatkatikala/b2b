@@ -59,6 +59,11 @@ public class UserController {
     }
     
     
+    @GetMapping("/currentuser")
+    public ResponseEntity<UserResponseDto> getCurrentUser() {
+        return resource.getCurrentUser();
+    }
+    
     
     
 //fetch all members in the organization api

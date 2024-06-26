@@ -16,12 +16,12 @@ public class UserController {
 	@Autowired
 	UserResource resource;
 	
-	@GetMapping(value = "/getbirthdays")
+	 @GetMapping(value = "/getbirthdays")
 	 public ResponseEntity<ResponseDto> findBirthdays() {
 		 return resource.findBirthdays();
 	 }
 	 
-	@GetMapping(value = "/getnewjoiners")
+	 @GetMapping(value = "/getnewjoiners")
 	 public ResponseEntity<ResponseDto> findNewJoiners() {
 		 return resource.findNewJoiners();
 	 }

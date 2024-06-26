@@ -6,6 +6,8 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -427,4 +429,38 @@ public class UserResource {
 		return new ResponseEntity<CommonApiResponse>(response, HttpStatus.OK);
 	}
 
+	
+
+	  public ResponseEntity<UserResponseDto> getCurrentUser() {
+		    UserResponseDto response = new UserResponseDto();
+
+		    // Get the authentication object from the security context
+		    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		    if (authentication == null || !authentication.isAuthenticated()) {
+		        response.setMessage("User is not authenticated");
+		        response.setStatus(false);
+		        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+		    }
+
+		    // Get the email of the authenticated user
+		    String userEmail = authentication.getName();
+
+		    // Fetch the user details using the email
+		    User user = service.getbyemail(userEmail);
+
+		    if (user == null) {
+		        response.setMessage("User not found");
+		        response.setStatus(false);
+		        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+		    }
+
+		    response.setSingleuser(user);
+		    response.setMessage("User details found");
+		    response.setStatus(true);
+		    return new ResponseEntity<>(response, HttpStatus.OK);
+		}
+	  
+	  
+	
 }
