@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
  
 @RestController
-@RequestMapping
+@RequestMapping("/paymentwelcome")
 public class Welcomecontroller {
 	@GetMapping("/paymenttest")
 	public String getadmin(){

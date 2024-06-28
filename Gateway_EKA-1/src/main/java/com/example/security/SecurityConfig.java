@@ -38,7 +38,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
             		
             		//this apis for all
-            		 .requestMatchers("/auth/login", "/auth/send-otp","/admintest","/annoncementtest","/attendancetest","/documenttest","/paymenttest","/requesttest").permitAll()
+            		 .requestMatchers("/auth/login", "/auth/send-otp","/api/user/forgotpassword","/api/user/otpvalidation","/adminwelcome/admintest","/announcementwelcome/annoncementtest","/attendencewelcome/attendancetest","/documentwelcome/documenttest","/paymentwelcome/paymenttest","/requestwelcome/requesttest","/auth/test").permitAll()
                      // Admin Access apis
                     
                      
@@ -47,7 +47,7 @@ public class SecurityConfig {
             		 
             		 // this apis for only admin
             		 .requestMatchers("/RequestFeign/findallannouncements","/announcments/findallannouncements","/api/user/grant-role", "/api/user/hrregister","/api/user/revoke-role","/api/user/team","/api/user/adminUpdateDetails","/api/user/findbyrole"
-                      		,"/api/user/otpvalidation","/api/user/updatePassword","/location/ip","/location/testing-location-service","/location/location").hasAnyAuthority("Admin")
+                      		,"/api/user/updatePassword","/location/ip","/location/testing-location-service","/location/location").hasAnyAuthority("Admin")
             		 
             		 
             		 

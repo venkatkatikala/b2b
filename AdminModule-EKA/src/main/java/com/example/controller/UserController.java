@@ -36,6 +36,10 @@ public class UserController {
         return this.resource.registerUser(request);
     }
 
+    
+    
+    
+    
 	
 	/*
 	 * //login api for all
@@ -133,5 +137,13 @@ public class UserController {
     @PutMapping(value = "/updatePassword")
     public ResponseEntity<CommonApiResponse>adminUpdatePasswordEmail(@RequestBody AdminPasswordAndEmailUpdate dto){
     	return resource.updatAdminPasswordAndEmail(dto);
+    }
+    
+    
+    //apis for forgotpassword this api access after complition of otp validation
+    
+    @PutMapping("/forgotpassword")
+    public String forgotpassword(@RequestParam  ("email") String email,@RequestParam ("newpassword") String newpassword,@RequestParam ("confirmpassword") String confirmpassword) {
+    	return resource.forgotpasswordpassword(email, newpassword, confirmpassword);
     }
 }

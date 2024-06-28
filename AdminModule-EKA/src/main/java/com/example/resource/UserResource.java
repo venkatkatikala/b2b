@@ -461,6 +461,31 @@ public class UserResource {
 		    return new ResponseEntity<>(response, HttpStatus.OK);
 		}
 	  
-	  
+	  public String forgotpasswordpassword(String email,String password,String confirmpassword) {
+		  
+		  if(email==null||password==null||confirmpassword==null) {
+			  return "Input missing";
+		  }
+		  
+		  if(password!=confirmpassword) {
+			  return "Password mismatch";
+		  }
+		  
+		User user = service.getbyemail(email);
+		 
+		 if(user==null) {
+			 return "User not found";
+		 }
+		 user.setPassword(encoder.encode(confirmpassword));
+		 
+		 User savedata = service.savedata(user);
+		 
+		 if(savedata==null) {
+			 return "Failed to set new password";
+		 }
+		 
+		 return "Succesfully updated new password";
+		  
+	  }
 	
 }

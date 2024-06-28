@@ -121,6 +121,7 @@ public class DocumentsService {
                 .orElseThrow(() -> new RuntimeException("Documents not found for empnumber: " + empnumber));
 
         String filePath = null;
+        
         switch (documentType) {
             case "degreememo":
                 filePath = documents.getDegreememoPath();

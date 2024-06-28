@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -31,4 +34,10 @@ public class UserController {
   public ResponseEntity<CommonApiResponse> sendOtp(@RequestBody OtpRequest otpRequest) {
       return resource.sendOtp(otpRequest);
   }
+  
+  @GetMapping("/test")
+ public String testapi() {
+	 return "Auth service Started";
+ }
+  
 }
