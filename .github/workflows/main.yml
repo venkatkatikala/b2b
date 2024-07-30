@@ -9,7 +9,65 @@ on:
       - bharath
 
 jobs:
-  build-and-test:
+  build-eureka:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'  # Specify the Java version if needed
+          distribution: 'temurin'  # Use 'temurin' instead of 'adoptopenjdk'
+
+      - name: Install dependencies and build Eureka_EKA
+        run: |
+          cd Eureka_EKA
+          ./mvnw clean install  # Use `./gradlew build` if using Gradle
+
+      - name: Run tests for Eureka_EKA
+        run: |
+          cd Eureka_EKA
+          ./mvnw test  # Use `./gradlew test` if using Gradle
+
+      - name: Package Eureka_EKA
+        run: |
+          cd Eureka_EKA
+          ./mvnw package  # Use `./gradlew build` if using Gradle
+
+  build-git-config:
+    needs: build-eureka
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'  # Specify the Java version if needed
+          distribution: 'temurin'  # Use 'temurin' instead of 'adoptopenjdk'
+
+      - name: Install dependencies and build GitConfiguration-Eka
+        run: |
+          cd GitConfiguration-Eka
+          ./mvnw clean install  # Use `./gradlew build` if using Gradle
+
+      - name: Run tests for GitConfiguration-Eka
+        run: |
+          cd GitConfiguration-Eka
+          ./mvnw test  # Use `./gradlew test` if using Gradle
+
+      - name: Package GitConfiguration-Eka
+        run: |
+          cd GitConfiguration-Eka
+          ./mvnw package  # Use `./gradlew build` if using Gradle
+
+  build-and-test-remaining:
+    needs: build-git-config
     runs-on: ubuntu-latest
 
     strategy:
@@ -20,9 +78,7 @@ jobs:
           - Attendance_01
           - AuthService
           - DocumentsModule
-          - Eureka_EKA
           - Gateway_EKA-1
-          - GitConfiguration-Eka
           - PaymentModule
           - RequestsAndComplaints
 
@@ -52,7 +108,7 @@ jobs:
           ./mvnw package  # Use `./gradlew build` if using Gradle
 
   deploy:
-    needs: build-and-test
+    needs: build-and-test-remaining
     runs-on: ubuntu-latest
 
     steps:
@@ -61,7 +117,7 @@ jobs:
 
       - name: Deploy modules
         run: |
-          for module in AdminModule-EKA AnnouncementsModule Attendance_01 AuthService DocumentsModule Eureka_EKA Gateway_EKA-1 GitConfiguration-Eka PaymentModule RequestsAndComplaints; do
+          for module in AdminModule-EKA AnnouncementsModule Attendance_01 AuthService DocumentsModule Gateway_EKA-1 PaymentModule RequestsAndComplaints; do
             echo "Deploying $module"
             cd $module
             # Add your deployment commands here
