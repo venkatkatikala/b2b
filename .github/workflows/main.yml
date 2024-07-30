@@ -34,7 +34,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '11'  # Specify the Java version if needed
-          distribution: 'adoptopenjdk'
+          distribution: 'temurin'  # Use 'temurin' instead of 'adoptopenjdk'
 
       - name: Install dependencies and build
         run: |
