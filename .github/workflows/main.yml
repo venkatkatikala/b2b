@@ -30,26 +30,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        if: ${{ matrix.module == 'AdminModule-EKA' || matrix.module == 'AnnouncementsModule' || matrix.module == 'Attendance_01' || matrix.module == 'AuthService' || matrix.module == 'DocumentsModule' || matrix.module == 'Eureka_EKA' || matrix.module == 'Gateway_EKA-1' || matrix.module == 'GitConfiguration-Eka' || matrix.module == 'PaymentModule' || matrix.module == 'RequestsAndComplaints' }}
-        uses: actions/setup-node@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
         with:
-          node-version: '14'  # Specify the Node.js version if needed
+          java-version: '11'  # Specify the Java version if needed
+          distribution: 'adoptopenjdk'
 
-      - name: Install dependencies
+      - name: Install dependencies and build
         run: |
           cd ${{ matrix.module }}
-          npm install  # or the appropriate command for your module
+          ./mvnw clean install  # Use `./gradlew build` if using Gradle
 
       - name: Run tests
         run: |
           cd ${{ matrix.module }}
-          npm test  # or the appropriate command for your module
+          ./mvnw test  # Use `./gradlew test` if using Gradle
 
-      - name: Build module
+      - name: Package module
         run: |
           cd ${{ matrix.module }}
-          npm run build  # or the appropriate command for your module
+          ./mvnw package  # Use `./gradlew build` if using Gradle
 
   deploy:
     needs: build-and-test
