@@ -1,0 +1,70 @@
+name: CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - bharath
+  pull_request:
+    branches:
+      - bharath
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        module:
+          - AdminModule-EKA
+          - AnnouncementsModule
+          - Attendance_01
+          - AuthService
+          - DocumentsModule
+          - Eureka_EKA
+          - Gateway_EKA-1
+          - GitConfiguration-Eka
+          - PaymentModule
+          - RequestsAndComplaints
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        if: ${{ matrix.module == 'AdminModule-EKA' || matrix.module == 'AnnouncementsModule' || matrix.module == 'Attendance_01' || matrix.module == 'AuthService' || matrix.module == 'DocumentsModule' || matrix.module == 'Eureka_EKA' || matrix.module == 'Gateway_EKA-1' || matrix.module == 'GitConfiguration-Eka' || matrix.module == 'PaymentModule' || matrix.module == 'RequestsAndComplaints' }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'  # Specify the Node.js version if needed
+
+      - name: Install dependencies
+        run: |
+          cd ${{ matrix.module }}
+          npm install  # or the appropriate command for your module
+
+      - name: Run tests
+        run: |
+          cd ${{ matrix.module }}
+          npm test  # or the appropriate command for your module
+
+      - name: Build module
+        run: |
+          cd ${{ matrix.module }}
+          npm run build  # or the appropriate command for your module
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy modules
+        run: |
+          for module in AdminModule-EKA AnnouncementsModule Attendance_01 AuthService DocumentsModule Eureka_EKA Gateway_EKA-1 GitConfiguration-Eka PaymentModule RequestsAndComplaints; do
+            echo "Deploying $module"
+            cd $module
+            # Add your deployment commands here
+            # Example: ./deploy.sh
+            cd ..
+          done
